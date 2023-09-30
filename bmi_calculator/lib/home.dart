@@ -19,15 +19,15 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BMI Calculator'),
+        title: Text(homeTitle),
       ),
       body: ListView(
         children: [
           Container(
             padding: const EdgeInsets.all(20.0),
-            child: const Text(
-              'Input your Weight and Height.',
-              style: TextStyle(
+            child: Text(
+              inputPrompt,
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),
@@ -39,8 +39,8 @@ class _HomeState extends State<Home> {
               controller: _controllerWeight,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(
-                hintText: 'Enter your weight (kg)',
+              decoration: InputDecoration(
+                hintText: enterWeight + kilogram,
               ),
             ),
           ),
@@ -50,8 +50,8 @@ class _HomeState extends State<Home> {
               controller: _controllerHeight,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(
-                hintText: 'Enter your height (m)',
+              decoration: InputDecoration(
+                hintText: enterHeight + metre,
               ),
             ),
           ),
@@ -68,16 +68,16 @@ class _HomeState extends State<Home> {
                   _bmiExplanation = result[2];
                 });
               },
-              child: const Text('Calculate'),
+              child: Text(calculate),
             ),
           ),
           Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                  'Your BMI is: ',
-                  style: TextStyle(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+                child: Text(
+                  yourBMI,
+                  style: const TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.w500,
                   ),
@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                 child: Text(
                   _bmiRange,
                   style: const TextStyle(fontSize: 25.0),
@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
               onPressed: () {
                 Navigator.pushNamed(context, '/info');
               },
-              child: const Text('More Info'),
+              child: Text(moreInfo),
             ),
           ),
         ],
@@ -139,24 +139,24 @@ List calculateBMI(String weight, String height) {
   bmi.toStringAsFixed(1);
 
   if (bmi < 18.5) {
+    // Underweight
     bmiResults[1] = underweightBmiRange;
     bmiResults[2] = underweightRangeExplanation;
-    print('underweight');
   }
   if (bmi >= 18.5 && bmi < 25) {
+    // Normal weight
     bmiResults[1] = normalBmiRange;
     bmiResults[2] = normalRangeExplanation;
-    print('normal');
   }
   if (bmi >= 25 && bmi < 30) {
+    // Overweight
     bmiResults[1] = overweightBmiRange;
     bmiResults[2] = overweightRangeExplanation;
-    print('overweight');
   }
   if (bmi >= 30) {
+    // Obese
     bmiResults[1] = obeseBmiRange;
     bmiResults[2] = obeseRangeExplanation;
-    print('obese');
   }
 
   bmiResults[0] = bmi.toStringAsFixed(1).toString();
