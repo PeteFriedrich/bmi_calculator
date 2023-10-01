@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'txt_en.dart';
 
 class Home extends StatefulWidget {
@@ -11,7 +12,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final TextEditingController _controllerWeight = TextEditingController();
   final TextEditingController _controllerHeight = TextEditingController();
-  String _bmiDisplay = '00.00';
+
+  String _bmiDisplay = emptyInput;
   String _bmiRange = defaultBmiRange;
   String _bmiExplanation = defaultRangeExplanation;
 
@@ -105,7 +107,6 @@ class _HomeState extends State<Home> {
                 margin: const EdgeInsets.fromLTRB(30, 0, 30, 20),
                 child: Text(
                   _bmiExplanation,
-                  //'You are within the 18.5 to 24.9 region, which puts you in the normal weight category.',
                   textAlign: TextAlign.justify,
                 ),
               ),
@@ -125,40 +126,56 @@ class _HomeState extends State<Home> {
   }
 }
 
+// Calculate the bmi and place it into a category
 List calculateBMI(String weight, String height) {
-  double passedWeight = double.parse(weight);
-  double passedHeight = double.parse(height);
+  if (weight != '' && height != '') {
+    double passedWeight = double.parse(weight);
+    double passedHeight = double.parse(height);
+    if (passedWeight > 0 && passedHeight > 0) {
+      // make an array [BMI, Range, Explanation]
+      var bmiResults = List<String>.filled(3, '');
 
-  // make an array [BMI, Range, Explanation]
-  var bmiResults = List<String>.filled(3, '');
+      // calculate the BMI
+      double bmi = (passedWeight / pow(passedHeight, 2));
 
-  // calculate the BMI
-  double bmi = (passedWeight / (passedHeight * passedHeight));
+      // Make the messages to go with the BMI
+      bmi.toStringAsFixed(1);
 
-  // Make the messages to go with the BMI
-  bmi.toStringAsFixed(1);
+      if (bmi < 18.5) {
+        // Underweight
+        bmiResults[1] = underweightBmiRange;
+        bmiResults[2] = underweightRangeExplanation;
+      }
+      if (bmi >= 18.5 && bmi < 25) {
+        // Normal weight
+        bmiResults[1] = normalBmiRange;
+        bmiResults[2] = normalRangeExplanation;
+      }
+      if (bmi >= 25 && bmi < 30) {
+        // Overweight
+        bmiResults[1] = overweightBmiRange;
+        bmiResults[2] = overweightRangeExplanation;
+      }
+      if (bmi >= 30) {
+        // Obese
+        bmiResults[1] = obeseBmiRange;
+        bmiResults[2] = obeseRangeExplanation;
+      }
 
-  if (bmi < 18.5) {
-    // Underweight
-    bmiResults[1] = underweightBmiRange;
-    bmiResults[2] = underweightRangeExplanation;
+      bmiResults[0] = bmi.toStringAsFixed(1).toString();
+      return bmiResults;
+    } else {
+      return [
+        emptyInput,
+        zeroInput,
+        zeroInputExplanation,
+      ];
+    }
+  } else {
+    return [
+      emptyInput,
+      noInput,
+      noInputExplanation,
+    ];
   }
-  if (bmi >= 18.5 && bmi < 25) {
-    // Normal weight
-    bmiResults[1] = normalBmiRange;
-    bmiResults[2] = normalRangeExplanation;
-  }
-  if (bmi >= 25 && bmi < 30) {
-    // Overweight
-    bmiResults[1] = overweightBmiRange;
-    bmiResults[2] = overweightRangeExplanation;
-  }
-  if (bmi >= 30) {
-    // Obese
-    bmiResults[1] = obeseBmiRange;
-    bmiResults[2] = obeseRangeExplanation;
-  }
-
-  bmiResults[0] = bmi.toStringAsFixed(1).toString();
-  return bmiResults;
 }

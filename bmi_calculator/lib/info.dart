@@ -31,6 +31,9 @@ class BMIInfo extends StatelessWidget {
               infoParagraph1,
             ),
           ),
+          Image.asset(
+            'assets/BMI_formula.jpg',
+          ),
           Container(
             padding: const EdgeInsets.all(10.0),
             child: Text(

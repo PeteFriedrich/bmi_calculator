@@ -12,6 +12,7 @@ String enterWeight = 'Enter your weight';
 String enterHeight = 'Enter you height';
 String kilogram = ' (kg)';
 String metre = ' (m)';
+String emptyInput = '00.00';
 
 // BMI output labels
 String yourBMI = 'Your BMI is:';
@@ -84,3 +85,9 @@ String obeseTableClass3 = 'Class 3 obesity (severe)';
 String obeseTableBMI1 = '30.0 to 34.9';
 String obeseTableBMI2 = '35.0 to 39.9';
 String obeseTableBMI3 = '40.0 or higher';
+
+// Error messages
+String zeroInput = 'Can not be 0';
+String zeroInputExplanation = 'Both entries must be greater than 0';
+String noInput = 'No data entered';
+String noInputExplanation = 'Enter your data to see the result';
